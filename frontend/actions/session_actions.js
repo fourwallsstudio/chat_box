@@ -8,7 +8,7 @@ export const RECEIVE_CURRENT_USER = 'SESSION::RECEIVE_CURRENT_USER'
 export const signUp = (formData) => {
   return (dispatch) => {
     axios.post('/users', formData)
-      .then( res => dispatch(receiveUser(res.data.data)))
+      .then( res => dispatch(receiveUser(res.data)))
       .then( res => dispatch(receiveCurrentUser(res.user.id)))
       .catch( err => dispatch(receiveError(err.response.data[0])))
   }
@@ -16,8 +16,12 @@ export const signUp = (formData) => {
 
 export const login = (formData) => {
   return (dispatch) => {
-    axios.post('/session', formData)
-      .then( res => dispatch(receiveUser(res.data.data)))
+    axios.post('/users/sign_in', formData)
+      .then( res => {
+        console.log(res)
+        return dispatch(receiveUser(res.data))
+      }
+        )
       .then( res => dispatch(receiveCurrentUser(res.user.id)))
       .catch( err => dispatch(receiveError(err.response.data[0])))
   }

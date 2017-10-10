@@ -6,9 +6,8 @@ const validate = (values) => {
   const errors = {};
   const req = 'required';
 
-  if (!values.username) errors['username'] = req;
-  if (!values.email) errors['email'] = req;
-  if (!values.password) errors['password'] = req;
+  if (!values.email) errors.email = req;
+  if (!values.password) errors.password = req;
 
   return errors;
 }
@@ -34,22 +33,13 @@ let SessionForm = (props) => {
   return (
     <div className="session-form-container">
       <form onSubmit={handleSubmit}>
-        <Field
-          name="username"
-          type="text"
-          component={renderField}
-          label="username"
-        />
 
-        {
-          formType === 'sign_up' &&
-            <Field
-              name="email"
-              type="email"
-              component={renderField}
-              label="email"
-            />
-        }
+        <Field
+          name="email"
+          type="email"
+          component={renderField}
+          label="email"
+        />
 
         <Field
           name="password"
