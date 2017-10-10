@@ -4,8 +4,15 @@ import { withRouter } from 'react-router';
 import SessionForm from './session_form';
 import { selectFormType } from 'reducers/selectors';
 import { signUp, login } from 'actions/session_actions';
+import { clearErrors } from 'actions/error_actions';
 
 class SessionModal extends Component {
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.form !== nextProps.form) {
+      this.props.clearErrors();
+    }
+  }
 
   handleSubmit = (values) => {
     const formData = new FormData();
@@ -14,10 +21,12 @@ class SessionModal extends Component {
     formData.append("user[password]", values.password);
 
     if (this.props.formType === 'sign_up') {
-      this.props.signUp(formData);
+      this.props.signUp(formData)
     } else {
-      this.props.login(formData);
+      this.props.login(formData)
     }
+
+    this.props.clearErrors();
   }
 
   render() {
@@ -27,6 +36,7 @@ class SessionModal extends Component {
         <SessionForm
           formType={this.props.formType}
           onSubmit={this.handleSubmit}
+          errors={this.props.errors}
         />
       </div>
     )
@@ -36,7 +46,9 @@ class SessionModal extends Component {
 const mapStateToProps = (state, ownProps) => {
   const combinedState = {...state, ...ownProps};
   return {
-    formType: selectFormType(combinedState)
+    formType: selectFormType(combinedState),
+    errors: state.errors,
+    form: state.form,
   }
 }
 
@@ -44,6 +56,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signUp: formData => dispatch(signUp(formData)),
     login: formData => dispatch(login(formData)),
+    clearErrors: () => dispatch(clearErrors()),
   }
 }
 

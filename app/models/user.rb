@@ -26,7 +26,11 @@ class User < ApplicationRecord
   has_many :friendships
   has_many :inverse_friendships, class_name: :Friendship, foreign_key: :friend_id
 
+  def friend_ids
+    friendships.map(&:friend_id) + inverse_friendships.map(&:user_id)
+  end
+
   def friends
-    friendships + inverse_friendships
+    friend_ids.map { |id| User.find(id) }
   end
 end

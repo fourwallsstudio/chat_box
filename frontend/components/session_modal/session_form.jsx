@@ -27,12 +27,15 @@ let SessionForm = (props) => {
 
   const {
     formType,
-    handleSubmit
+    handleSubmit,
+    errors
   } = props;
 
   return (
     <div className="session-form-container">
       <form onSubmit={handleSubmit}>
+        
+        { errors && errors[0] }
 
         <Field
           name="email"

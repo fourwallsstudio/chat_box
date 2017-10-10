@@ -10,7 +10,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    self.resource = resource_class.new_with_session(sign_up_params, session)
+    resource = resource_class.new_with_session(sign_up_params, session)
 
     if resource.save
       if resource.active_for_authentication?
@@ -24,7 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      return render json: {success: false}, status: 422
+      return render json: resource.errors.full_messages, status: 422
     end
   end
 
