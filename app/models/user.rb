@@ -13,7 +13,6 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :string
 #  last_sign_in_ip        :string
-#  username               :string           not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -24,12 +23,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates :username, :email, presence: true, uniqueness: true
-
   has_many :friendships
   has_many :inverse_friendships, class_name: :Friendship, foreign_key: :friend_id
 
+  def friend_ids
+    friendships.map(&:friend_id) + inverse_friendships.map(&:user_id)
+  end
+
   def friends
-    friendships + inverse_friendships
+    friend_ids.map { |id| User.find(id) }
   end
 end

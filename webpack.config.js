@@ -12,7 +12,7 @@ module.exports = {
     alias: {
       components: path.resolve(__dirname, 'frontend/components'),
       reducers: path.resolve(__dirname, 'frontend/reducers'),
-      actions: path.resolve(__dirname, 'frontend/actions'),
+      actions: path.resolve(__dirname, 'frontend/actions')
     }
   },
   module: {

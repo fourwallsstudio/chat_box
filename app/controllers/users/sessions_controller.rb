@@ -1,4 +1,4 @@
-class Api::Users::SessionsController < Devise::SessionsController
+class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -7,9 +7,12 @@ class Api::Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    self.resource = warden.authenticate!(auth_options)
+    set_flash_message :notice, :signed_in if is_navigational_format?
+    sign_in(resource_name, resource)
+    render json: resource
+  end
 
   # DELETE /resource/sign_out
   # def destroy
