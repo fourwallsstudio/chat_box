@@ -18,8 +18,13 @@
 #
 
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  include PgSearch
+  pg_search_scope :friend_search,
+                  against: :email,
+                  using: {
+                    tsearch: {prefix: true}
+                  }
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -32,5 +37,9 @@ class User < ApplicationRecord
 
   def friends
     friend_ids.map { |id| User.find(id) }
+  end
+
+  def is_friend?
+    current_user.friend_ids.indlude?(self.id)
   end
 end
