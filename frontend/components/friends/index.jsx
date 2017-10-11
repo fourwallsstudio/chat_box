@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { currentUserSelector, friendsSelector } from 'reducers/selectors';
+import Search from 'components/search';
 
 class Friends extends Component {
 
   render() {
     if (this.props.currentUser) {
-      
+
       const friends = this.props.friends.map((friend) => (
         <li key={`${friend.id}-${friend.email}`}>{friend.email}</li>
       ));
@@ -19,6 +20,7 @@ class Friends extends Component {
           <ul className="friend-list">
             { friends }
           </ul>
+          <Search />
         </aside>
       )
     } else {
