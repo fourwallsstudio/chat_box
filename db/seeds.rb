@@ -12,9 +12,9 @@
   User.create({ email: Faker::Internet.email, password: '12345678' })
 end
 
-100.times do |i|
-  10.times do |j|
-    friend_id = (i + 10 + j) % 100
-    Friendship.create({ user_id: i, friend_id: friend_id })
-  end
-end
+# 100.times do |i|
+#   10.times do |j|
+#     friend_id = (i + 10 + j) % 100
+#     Friendship.create({ user_id: i, friend_id: friend_id })
+#   end
+# end

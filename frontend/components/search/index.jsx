@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { searchFriends } from 'actions/search_actions';
+import { currentUserSelector } from 'reducers/selectors';
 import SearchResults from './search_results';
 
 class Search extends Component {
@@ -18,24 +19,30 @@ class Search extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <input
-          type="text"
-          value={this.state.searchValue}
-          placeholder="search for new friends"
-          onChange={this.handleSearch}
-        />
+      return (
+        <div>
 
-        <SearchResults results={this.props.results} />
-      </div>
-    )
+          <input
+            type="text"
+            value={this.state.searchValue}
+            placeholder="search for new friends"
+            onChange={this.handleSearch}
+            />
+
+          <SearchResults
+            results={this.props.results}
+            currentUser={this.props.currentUser}
+            />
+
+        </div>
+      )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     results: state.search.results,
+    currentUser: currentUserSelector(state),
   }
 }
 

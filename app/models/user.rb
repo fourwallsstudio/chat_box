@@ -30,6 +30,8 @@ class User < ApplicationRecord
 
   has_many :friendships
   has_many :inverse_friendships, class_name: :Friendship, foreign_key: :friend_id
+  has_many :friend_requests
+  has_many :inverse_friend_requests, class_name: :FriendRequest, foreign_key: :friend_id
 
   def friend_ids
     friendships.map(&:friend_id) + inverse_friendships.map(&:user_id)
@@ -39,7 +41,11 @@ class User < ApplicationRecord
     friend_ids.map { |id| User.find(id) }
   end
 
-  def is_friend?
-    current_user.friend_ids.indlude?(self.id)
+  def friend_requests_made
+    friend_requests.map(&:friend_id)
+  end
+
+  def friend_requests_recieved
+    inverse_friend_requests.map(&:user_id)
   end
 end

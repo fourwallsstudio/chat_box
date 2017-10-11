@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { currentUserSelector, friendsSelector } from 'reducers/selectors';
 import Search from 'components/search';
+import Friend from './friend';
 
 class Friends extends Component {
 
   render() {
     if (this.props.currentUser) {
 
-      const friends = this.props.friends.map((friend) => (
-        <li key={`${friend.id}-${friend.email}`}>{friend.email}</li>
+      const friends = this.props.friends.map((f) => (
+        <Friend key={`${f.id}-${f.email}`} friend={f} />
       ));
 
       return (

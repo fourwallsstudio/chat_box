@@ -1,8 +1,7 @@
 import { RECEIVE_USER } from 'actions/user_actions';
 
 const defaultState = {
-  usersByIds: {},
-  ids: []
+  usersByIds: {}
 }
 
 const userReducer = (state = defaultState, action) => {
@@ -10,14 +9,7 @@ const userReducer = (state = defaultState, action) => {
 
     case RECEIVE_USER:
       return {
-        usersByIds: {
-          ...state.usersByIds,
-          [action.user.id]: action.user
-        },
-        ids: [
-          ...state.ids,
-          action.user.id
-        ]
+        usersByIds: { [action.user.id]: action.user }
       };
 
     default:
