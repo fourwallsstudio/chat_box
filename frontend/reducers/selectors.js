@@ -14,3 +14,13 @@ export const friendsSelector = createSelector(
   currentUserSelector,
   currentUser => currentUser ? currentUser.friends : []
 );
+
+const searchResults = state => state.search.results;
+
+export const searchResultsSelector = createSelector(
+  currentUserSelector,
+  searchResults,
+  (currentUser, results) => results.filter((r) => {
+    return !currentUser.friend_ids.includes(r.id) && currentUser.id !== r.id
+  })
+)
