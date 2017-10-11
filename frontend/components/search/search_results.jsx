@@ -1,11 +1,12 @@
 import React from 'react';
+import Friend from 'components/friends/friend';
 
 const SearchResults = (props) => {
   let searchResults;
 
   if (props.results) {
-    searchResults = props.results.map( (u) => (
-      <li key={`${u.id}-${u.email}`}>{u.email}</li>
+    searchResults = props.results.map( (f) => (
+      <Friend key={`${f.id}-${f.email}`} friend={f} />
     ))
   }
 

@@ -34,8 +34,6 @@ let SessionForm = (props) => {
   return (
     <div className="session-form-container">
       <form onSubmit={handleSubmit}>
-        
-        { errors && errors[0] }
 
         <Field
           name="email"
@@ -51,7 +49,10 @@ let SessionForm = (props) => {
           label="password"
         />
 
-      <button type="submit">{formType}</button>
+        { errors && errors[0] }
+        <br />
+
+        <button type="submit">{formType}</button>
       </form>
     </div>
   )
