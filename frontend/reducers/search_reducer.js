@@ -4,7 +4,7 @@ const defaultState = {
   results: []
 }
 
-const searchReducer = (state = {}, action) => {
+const searchReducer = (state = defaultState, action) => {
   switch (action.type) {
 
     case RECEIVE_SEARCH_RESULTS:

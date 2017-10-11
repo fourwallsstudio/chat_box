@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { searchFriends } from 'actions/search_actions';
-import { currentUserSelector } from 'reducers/selectors';
+import { currentUserSelector, searchResultsSelector } from 'reducers/selectors';
 import SearchResults from './search_results';
 
 class Search extends Component {
@@ -41,7 +41,7 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    results: state.search.results,
+    results: searchResultsSelector(state),
     currentUser: currentUserSelector(state),
   }
 }
