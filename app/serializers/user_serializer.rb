@@ -19,5 +19,5 @@
 
 class UserSerializer < ActiveModel::Serializer
   attributes  :id, :email, :friends, :friend_requests_recieved,
-              :friend_requests_made, :friend_ids
+              :friend_requests_made, :friend_ids, :pending_friend_requests
 end

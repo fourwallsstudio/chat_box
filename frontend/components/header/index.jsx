@@ -1,19 +1,42 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { currentUserSelector } from 'reducers/selectors';
 import { Link } from 'react-router-dom';
+import { displayFriendRequests } from 'actions/friend_actions';
+import { currentUserSelector } from 'reducers/selectors';
+import FriendRequests from './friend_requests';
 
-const headerStyle = { display: "flex", justifyContent: "space-between", padding: "0 30px" }
+const headerStyle = { display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "0 30px" };
+const userNameStyle = { display: "flex", alignItems: "baseline" };
 
-const Header = (props) => {
-  return (
-    <header style={headerStyle}>
+class Header extends Component {
+  constructor() {
+    super()
+
+    this.state = { requestsActive: false }
+  }
+
+  handleDisplayFriendRequests = (e) => {
+    e.preventDefault();
+    this.setState({ requestsActive: !this.state.requestsActive })
+  }
+
+  render() {
+    return (
+      <header style={headerStyle}>
         <h2>chat_box</h2>
 
         {
-          props.currentUser ? (
-            <div className="current-user-nav">
-              <h2>{ props.currentUser.email }</h2>
+          this.props.currentUser ? (
+            <div className="current-user-nav" style={userNameStyle}>
+              {
+                this.state.requestsActive &&
+                <FriendRequests friendRequests={this.props.currentUser.pending_friend_requests} />
+              }
+              <button
+                onClick={ this.handleDisplayFriendRequests }
+                >{ this.props.currentUser.pending_friend_requests.length }
+              </button>
+              <h2>{ this.props.currentUser.email }</h2>
             </div>
           ) : (
             <div className="auth-links-container">
@@ -22,8 +45,9 @@ const Header = (props) => {
             </div>
           )
         }
-    </header>
-  )
+      </header>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {

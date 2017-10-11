@@ -48,4 +48,8 @@ class User < ApplicationRecord
   def friend_requests_recieved
     inverse_friend_requests.map(&:user_id)
   end
+
+  def pending_friend_requests
+    inverse_friend_requests.select { |fr| !fr.accepted }.map { |fr| User.find(fr.user_id) }
+  end
 end
