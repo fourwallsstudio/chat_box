@@ -1,10 +1,11 @@
 class FriendRequestsController < ApplicationController
+  before_action :authenticate_user!
 
   def create
     @friend_request = FriendRequest.new(friend_request_params)
 
     if @friend_request.save
-      render json: User.find(@friend_request.user_id)
+      render json: current_user
     else
       render json: @friend_request.errors.full_messages, status: 422
     end
@@ -24,7 +25,7 @@ class FriendRequestsController < ApplicationController
           user_id: @friend_request.user_id,
           friend_id: @friend_request.friend_id
       })
-      render json: User.find(@friend_request.friend_id)
+      render json: current_user
     else
       render json: @friend_request.errors.full_messages, status: 422
     end
@@ -38,7 +39,7 @@ class FriendRequestsController < ApplicationController
 
     @friend_request.destroy
 
-    render json: User.find(friend_req_params["user_id"])
+    render json: current_user
   end
 
   private

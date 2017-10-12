@@ -4,6 +4,30 @@
     <meta charset="utf-8">
     <title>chat_box</title>
     <script type="text/javascript" src="dist/bundle.js"></script>
+    <script type="text/javascript">
+      if (!localStorage['currentUser']) {
+        if (localStorage['jwt']) {
+            const token = `bearer ${localStorage.getItem('jwt')}`;
+            const myHeaders = new Headers();
+            myHeaders.append('authorization', token);
+            fetch('http://localhost:3000/users/sign_in',
+            {
+              method: 'post',
+              headers: myHeaders,
+            }
+          )
+          .then( (res) => res.json() )
+          .then( (res) => {
+            localStorage.setItem('currentUser', JSON.stringify(res));
+            location.replace('http://localhost:3000/');
+          });
+        } else {
+          console.log('no jwt');
+        }
+      } else {
+        console.log('currentUser',localStorage['currentUser']);
+      }
+    </script>
   </head>
   <body>
     <main id="root"></main>

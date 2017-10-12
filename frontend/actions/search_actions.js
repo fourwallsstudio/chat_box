@@ -1,11 +1,18 @@
 import axios from 'axios';
+import { getJsonWebToken } from '../util/jwt_util';
 import { receiveErrors } from './error_actions';
 
 export const RECEIVE_SEARCH_RESULTS = 'SEARCH::RECEIVE_SEARCH_RESULTS'
 
 export const searchFriends = (search) => {
   return (dispatch) => {
-    axios.get('users/search', { params: { search } })
+    const token = getJsonWebToken();
+    axios.get('users/search',
+      {
+        params: { search },
+        headers: {'authorization': token}
+      }
+    )
       .then( res => dispatch(receiveSearchResults(res.data)))
       .catch( err => dispatch(receiveErrors(err.response.data)))
   }

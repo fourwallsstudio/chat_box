@@ -28,6 +28,7 @@ gem 'devise'
 gem 'active_model_serializers'
 gem 'rb-readline'
 gem 'pg_search'
+gem 'jwt'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,4 +1,5 @@
 class FriendshipsController < ApplicationController
+  before_action :authenticate_user!
 
   def destroy
     friendship_params =  JSON.parse(params[:friendship])
@@ -11,11 +12,11 @@ class FriendshipsController < ApplicationController
     destroy_friend_request  friendship_params["user_id"],
                             friendship_params["friend_id"]
 
-    render json: User.find(friendship_params["friend_id"])
+    render json: current_user
   end
 
   private
-  
+
     def destroy_friend_request(user_id, friend_id)
       fr = FriendRequest.find_by  user_id: user_id,
                                   friend_id: friend_id

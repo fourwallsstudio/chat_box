@@ -8,7 +8,7 @@ export const selectFormType = createSelector(
 );
 
 export const currentUserSelector = state =>
-  state.users.usersByIds[state.session.currentUser];
+  state.session.currentUser;
 
 export const friendsSelector = createSelector(
   currentUserSelector,
