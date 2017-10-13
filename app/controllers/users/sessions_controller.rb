@@ -8,16 +8,21 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    self.resource = warden.authenticate!(auth_options)
-    sign_in(resource_name, resource)
+    self.resource = warden.authenticate! auth_options
+    sign_in resource_name, resource
     set_jwt_token
     render json: current_user
   end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    sign_out current_user
+    render json: {}
+  end
+
+  # overwrite devise method
+  def verify_signed_out_user
+  end
 
   protected
 

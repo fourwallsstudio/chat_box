@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setJsonWebToken } from '../util/jwt_util';
+import { setJsonWebToken, removeJsonWebToken, getJsonWebToken } from '../util/jwt_util';
 
 import { receiveUser } from 'actions/user_actions';
 import { receiveErrors } from 'actions/error_actions';
@@ -25,6 +25,28 @@ export const login = (formData) => {
         return dispatch(receiveCurrentUser(res.data))
       })
       .catch( err => dispatch(receiveErrors(err.response.data)))
+  }
+}
+
+export const loginWithJWT = () => {
+  return (dispatch) => {
+    const token = getJsonWebToken();
+    axios.post('/users/sign_in', {}, {headers: {'authorization': token}})
+      .then( res => {
+        setJsonWebToken(res)
+        return dispatch(receiveCurrentUser(res.data))
+      })
+      .catch( err => dispatch(receiveErrors(err.response.data)))
+  }
+}
+
+export const logout = (user) => {
+  return (dispatch) => {
+    axios.delete('/users/sign_out', { params: { user } })
+      .then( res => {
+        removeJsonWebToken();
+        return dispatch(receiveCurrentUser(null))
+      })
   }
 }
 
