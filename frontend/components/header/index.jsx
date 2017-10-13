@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { displayFriendRequests } from 'actions/friend_actions';
+import { logout, loginWithJWT } from 'actions/session_actions';
 import { currentUserSelector } from 'reducers/selectors';
 import FriendRequests from './friend_requests';
 
@@ -15,9 +16,18 @@ class Header extends Component {
     this.state = { requestsActive: false }
   }
 
+  componentDidMount() {
+    if (window.localStorage['jwt']) this.props.loginWithJWT();
+  }
+
   handleDisplayFriendRequests = (e) => {
     e.preventDefault();
     this.setState({ requestsActive: !this.state.requestsActive })
+  }
+
+  handleLogout = (e) => {
+    e.preventDefault()
+    this.props.logout(this.props.currentUser);
   }
 
   render() {
@@ -37,6 +47,7 @@ class Header extends Component {
                 >{ this.props.currentUser.pending_friend_requests.length }
               </button>
               <h2>{ this.props.currentUser.email }</h2>
+              <button onClick={ this.handleLogout }>logout</button>
             </div>
           ) : (
             <div className="auth-links-container">
@@ -56,4 +67,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(Header);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginWithJWT: () => dispatch(loginWithJWT()),
+    logout: () => dispatch(logout()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
